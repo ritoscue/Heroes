@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient }from '@angular/common/http';
+import { HeroService } from '../hero.service';
+
 import {Hero} from '../hero';
 @Component({
   selector: 'app-heroes',
@@ -8,18 +9,21 @@ import {Hero} from '../hero';
 })
 export class HeroesComponent implements OnInit {
   heroes: Hero[];
-  constructor(private http: HttpClient) {
-    this.getHeroes();
+  selectedHero: Hero;
+  constructor(private heroService: HeroService) {
+    
+  }
+  onSelect(hero: Hero): void{
+    this.selectedHero = hero;
   }
 
   getHeroes() {
-    this.http.get("http://localhost:3000/heros")
-    .subscribe((data:  Array<Hero>) =>{
-      this.heroes=data;
-    });
+    this.heroService.getHeroes()
+    .subscribe(heroes => this.heroes=heroes);
   }
 
   ngOnInit() {
+    this.getHeroes();
   }
 
 }
