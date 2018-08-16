@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { HttpClient }from '@angular/common/http';
 import {Hero} from '../hero';
 @Component({
   selector: 'app-heroes',
@@ -6,11 +7,17 @@ import {Hero} from '../hero';
   styleUrls: ['./heroes.component.css']
 })
 export class HeroesComponent implements OnInit {
-  hero: Hero ={
-    id:1,
-    name:'WindStorm'
-  };
-  constructor() { }
+  heroes: Hero[];
+  constructor(private http: HttpClient) {
+    this.getHeroes();
+  }
+
+  getHeroes() {
+    this.http.get("http://localhost:3000/heros")
+    .subscribe((data:  Array<Hero>) =>{
+      this.heroes=data;
+    });
+  }
 
   ngOnInit() {
   }
